@@ -1,0 +1,337 @@
+# Smart TOC Generator
+
+Contributors: Chris Lee  
+Tags: table of contents, toc, navigation, headings, scroll, accessibility  
+Requires at least: 5.0  
+Tested up to: 6.4  
+Requires PHP: 7.4  
+Stable tag: 1.0.0  
+License: GPLv2 or later  
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Automatically generates a table of contents from H1-H6 tags with smooth scroll and active section highlighting.
+
+## Description
+
+Smart TOC Generator is a lightweight and powerful WordPress plugin that automatically creates a table of contents from your post's headings (H1-H6 tags). It enhances user experience by providing easy navigation and highlighting the currently viewed section as users scroll through your content.
+
+### Key Features
+
+* **Automatic TOC Generation**: Automatically scans and creates hierarchical table of contents from H1-H6 headings
+* **Active Section Highlighting**: Real-time highlighting of the current section being viewed
+* **Smooth Scrolling**: Smooth animation when clicking on TOC links
+* **Collapsible TOC**: Toggle functionality to expand/collapse the table of contents
+* **Responsive Design**: Fully responsive design that works on all devices
+* **Dark Mode Support**: Automatic dark mode detection and styling
+* **Accessibility Features**: Full keyboard navigation and screen reader support
+* **Multilingual Support**: Works with all languages including non-Latin scripts
+* **Customizable Positioning**: Choose where to display the TOC in your content
+* **Minimum Headings Setting**: Set minimum number of headings required to show TOC
+* **Custom CSS Support**: Add your own styling through the admin panel
+
+### Perfect For
+
+* Blog posts with multiple sections
+* Documentation and tutorials
+* Long-form articles
+* Academic papers
+* Product guides
+* Any content with structured headings
+
+### Live Demo
+
+Check out the plugin in action on our [demo site](https://yourwebsite.com/demo).
+
+## Installation
+
+### Automatic Installation
+
+1. Login to your WordPress admin panel
+2. Go to Plugins → Add New
+3. Search for "Smart TOC Generator"
+4. Click "Install Now" and then "Activate"
+
+### Manual Installation
+
+1. Download the plugin files
+2. Upload the `smart-toc` folder to the `/wp-content/plugins/` directory
+3. Activate the plugin through the WordPress admin 'Plugins' menu
+4. Go to Settings → Smart TOC to configure the plugin
+
+### File Structure
+
+After installation, the plugin structure should look like this:
+
+```
+smart-toc/
+├── smart-toc.php
+├── assets/
+│   ├── css/
+│   │   └── smart-toc.css
+│   └── js/
+│       └── smart-toc.js
+├── languages/
+└── readme.txt
+```
+
+## Frequently Asked Questions
+
+### How does the plugin work?
+
+The plugin automatically scans your content for heading tags (H1-H6) and generates a hierarchical table of contents. It then adds smooth scrolling functionality and highlights the active section as you scroll.
+
+### Can I customize the appearance?
+
+Yes! You can customize the TOC appearance through:
+- Built-in settings panel
+- Custom CSS option in the admin
+- Theme CSS overrides
+- WordPress hooks and filters for developers
+
+### Which post types are supported?
+
+By default, the plugin works with posts and pages, but you can enable it for any public post type through the settings panel.
+
+### Is it accessible?
+
+Absolutely! The plugin includes:
+- Full keyboard navigation support
+- ARIA labels for screen readers
+- Focus management
+- High contrast support
+
+### Does it work with page builders?
+
+Yes, the plugin works with most page builders including Gutenberg, Elementor, and others, as long as they generate standard HTML heading tags.
+
+### Can I exclude certain headings?
+
+Currently, all H1-H6 headings are included automatically. Custom filtering can be implemented using WordPress hooks (see developer documentation).
+
+### Is it translation-ready?
+
+Yes, the plugin is fully translation-ready and includes support for RTL languages. Translation files should be placed in the `/wp-content/languages/plugins/` directory.
+
+## Screenshots
+
+1. **Table of Contents in action** - Shows the TOC integrated within a blog post with active section highlighting
+2. **Admin Settings Panel** - The comprehensive settings page with all customization options
+3. **Mobile Responsive Design** - How the TOC appears and functions on mobile devices
+4. **Dark Mode Support** - Automatic dark mode styling that adapts to user preferences
+
+## Configuration
+
+After activation, go to **Settings → Smart TOC** to configure:
+
+### Basic Settings
+
+* **Post Types**: Select which post types should display the TOC
+* **Minimum Headings**: Set minimum number of headings required (default: 3)
+* **Position**: Choose where to insert the TOC (top of content or before first heading)
+
+### Display Options
+
+* **Scroll Offset**: Adjust the pixel offset for active section detection (default: 100px)
+* **Smooth Scroll**: Enable/disable smooth scrolling animation
+* **Collapsible**: Allow users to collapse/expand the TOC
+
+### Styling
+
+* **Theme**: Choose from built-in color schemes
+* **Custom CSS**: Add your own CSS for complete customization
+
+## Customization
+
+### CSS Classes
+
+The plugin uses semantic CSS classes for easy customization:
+
+```css
+.smart-toc-container        /* Main container */
+├── .smart-toc-header       /* Header section */
+│   ├── .smart-toc-title    /* TOC title */
+│   └── .smart-toc-toggle   /* Toggle button */
+└── .smart-toc-nav          /* Navigation area */
+    └── .smart-toc-list     /* TOC list */
+        └── .smart-toc-link /* TOC links */
+```
+
+### Custom Styling Examples
+
+```css
+/* Change TOC background */
+.smart-toc-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+}
+
+/* Style active links */
+.smart-toc-link.active {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Mobile positioning */
+@media (max-width: 768px) {
+    .smart-toc-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        max-width: 250px;
+        z-index: 999;
+    }
+}
+```
+
+### JavaScript API
+
+For developers, the plugin exposes a JavaScript API:
+
+```javascript
+// Refresh TOC after dynamic content changes
+window.SmartTOC.refresh();
+
+// Navigate to specific heading
+window.SmartTOC.goTo('heading-id');
+
+// Get currently active heading
+const activeHeading = window.SmartTOC.getActive();
+```
+
+### WordPress Hooks
+
+#### Filters
+
+```php
+// Customize TOC HTML output
+add_filter('smart_toc_html', function($html, $headings) {
+    // Modify $html as needed
+    return $html;
+}, 10, 2);
+
+// Modify extracted headings
+add_filter('smart_toc_headings', function($headings, $content) {
+    // Filter or modify headings array
+    return $headings;
+}, 10, 2);
+```
+
+#### Actions
+
+```php
+// Run code after TOC is generated
+add_action('smart_toc_generated', function($headings) {
+    // Your code here
+});
+```
+
+## Performance
+
+The plugin is optimized for performance:
+
+* **Lightweight**: Minimal CSS and JavaScript footprint
+* **Conditional Loading**: Assets only load when needed
+* **Efficient Parsing**: Optimized heading extraction
+* **Caching Friendly**: Compatible with all major caching plugins
+* **No Database Queries**: All processing happens on the frontend
+
+## Browser Support
+
+* Chrome 60+
+* Firefox 55+
+* Safari 12+
+* Edge 79+
+* Mobile browsers (iOS Safari, Chrome Mobile)
+
+## Accessibility Features
+
+* Full keyboard navigation (Tab, Arrow keys, Home, End)
+* Screen reader support with ARIA labels
+* High contrast mode support
+* Focus management and visual indicators
+* Semantic HTML structure
+
+## Developer Documentation
+
+### Conditional Display
+
+```php
+// Show TOC only on specific posts
+add_filter('smart_toc_display', function($display, $post_id) {
+    if (in_array($post_id, [123, 456, 789])) {
+        return true;
+    }
+    return $display;
+}, 10, 2);
+```
+
+### Custom Post Meta
+
+The plugin respects custom post meta for per-post control:
+
+* `_smart_toc_disable` - Set to '1' to disable TOC on specific posts
+* `_smart_toc_title` - Custom TOC title for individual posts
+
+## Troubleshooting
+
+### TOC Not Appearing
+
+1. Check that you have enough headings (minimum setting)
+2. Verify the post type is enabled in settings
+3. Ensure headings use proper HTML tags (H1-H6)
+4. Check for theme conflicts
+
+### Styling Issues
+
+1. Clear browser and plugin caches
+2. Check for CSS conflicts with theme
+3. Verify plugin CSS files are loading
+4. Try disabling other plugins temporarily
+
+### JavaScript Errors
+
+1. Ensure jQuery is loaded properly
+2. Check browser console for specific errors
+3. Test with default WordPress theme
+4. Verify no JavaScript conflicts exist
+
+## Changelog
+
+### 1.0.0
+* Initial release
+* Automatic TOC generation from H1-H6 headings
+* Active section highlighting with smooth scroll
+* Responsive design with mobile support
+* Admin settings panel with customization options
+* Accessibility features and keyboard navigation
+* Dark mode support
+* WordPress hooks and filters for developers
+* Translation ready
+
+## Upgrade Notice
+
+### 1.0.0
+Initial release of Smart TOC Generator. Enjoy automatic table of contents generation with smooth scrolling and active section highlighting!
+
+## Support
+
+For support, feature requests, or bug reports:
+
+* WordPress.org support forums
+* GitHub repository: [https://github.com/yourname/smart-toc](https://github.com/yourname/smart-toc)
+* Email: support@yourwebsite.com
+
+## Contributing
+
+We welcome contributions! Please see our [contributing guidelines](https://github.com/yourname/smart-toc/blob/main/CONTRIBUTING.md) on GitHub.
+
+## License
+
+This plugin is licensed under the GPLv2 or later. See [License URI](https://www.gnu.org/licenses/gpl-2.0.html) for more information.
+
+## Credits
+
+Developed by [Your Name](https://yourwebsite.com) with ❤️ for the WordPress community.
+
+Special thanks to all contributors and beta testers who helped make this plugin better.
